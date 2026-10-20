@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#fff8ec" />
+  <meta name="description" content="Moncho's Coffie, bien montañero. Una propuesta de tienda que reúne tradición, café y el carácter de nuestra tierra." />
+  <title>Moncho's Coffie · Bien montañero</title>
+  <link rel="icon" href="assets/logo.webp" type="image/webp" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="notice">VISTA PREVIA PARA EL CLIENTE · PRECIOS ILUSTRATIVOS · NO SE PROCESAN COMPRAS</div>
+  <header class="site-header" id="inicio">
+    <div class="container nav-bar">
+      <a class="brand" href="#inicio" aria-label="Moncho's Coffie, volver al inicio"><img src="assets/logo.webp" alt="Moncho's Coffie, bien montañero: montañero y caballo" /></a>
+      <nav id="mainNav" class="navigation" aria-label="Menú principal">
+        <a href="#inicio" class="active">Inicio</a><a href="#cafes">Nuestros cafés</a><a href="#historia">Nuestra historia</a><a href="#contenido">Contenido</a><a href="#contacto">Contacto</a>
+      </nav>
+      <div class="nav-actions"><button id="searchBtn" class="text-icon" aria-label="Ver productos">⌕</button><button id="cartBtn" class="text-icon cart-icon" aria-label="Abrir carrito">🛒 <b id="cartCount">0</b></button><a href="#cafes" class="btn btn-primary nav-cta">Comprar ahora <span>→</span></a><button id="menuBtn" class="text-icon mobile-menu" aria-label="Mostrar menú" aria-expanded="false">☰</button></div>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="hero-mountains"></div>
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <p class="kicker">MONCHO'S COFFIE · CAFÉ CON CARÁCTER</p>
+          <h1>El café bien <strong>montañero</strong> que sabe a <em>tradición.</em></h1>
+          <p class="hero-lead">Café para compartir historias, recordar nuestras raíces y disfrutar el sabor auténtico de lo que nos une.</p>
+          <div class="hero-buttons"><a href="#cafes" class="btn btn-primary">Conoce nuestros cafés <span>→</span></a><button id="heroPlay" class="btn btn-outline"><span class="play-dot">▶</span> Ver nuestro video</button></div>
+          <div class="hero-trust"><div><i>♧</i><span>Espíritu<br>montañero</span></div><div><i>⌁</i><span>Tradición<br>en cada taza</span></div><div><i>✦</i><span>Hecho para<br>compartir</span></div></div>
+        </div>
+        <div class="hero-photo"><img src="assets/hero.webp" alt="Interpretación visual de Moncho junto a su caballo, montañas, granos y una taza de café"/><div class="hero-quote">Más que café,<br><em>es nuestra tierra.</em></div></div>
+      </div>
+    </section>
+    <section class="benefits"><div class="container benefits-grid"><span>♧ &nbsp; Cultura cafetera</span><span>⌁ &nbsp; Raíces montañeras</span><span>✦ &nbsp; Sabor y tradición</span><span>◇ &nbsp; Para buenos momentos</span></div></section>
+    <section class="section products-section container" id="cafes">
+      <div class="heading-row"><div><p class="kicker">NUESTROS CAFÉS</p><h2>Sabores que nacen <em>en la montaña</em></h2><p class="section-sub">Una colección con el carácter de nuestra tierra.</p></div><a href="#catalogo" class="btn btn-primary btn-small">Ver todos los productos <span>→</span></a></div>
+      <div class="filters" id="catalogo" role="group" aria-label="Filtrar cafés"><button class="filter active" data-filter="todos">Todos</button><button class="filter" data-filter="cafe">Cafés</button><button class="filter" data-filter="especial">Especiales</button><button class="filter" data-filter="kit">Regalos</button></div>
+      <div id="productGrid" class="product-grid" aria-live="polite"></div>
+      <p class="disclaimer">* Empaques, nombres, presentaciones y precios de muestra: pendientes de aprobación de Moncho's Coffie.</p>
+    </section>
+    <section class="story-section" id="historia">
+      <div class="container story-layout">
+        <div class="video-wrap"><video id="brandVideo" controls playsinline preload="metadata" poster="assets/video-poster.jpg"><source src="assets/monchos-video.mp4" type="video/mp4" />Tu navegador no admite video HTML5.</video><span class="video-label">EL VIDEO ORIGINAL DE MONCHOS</span></div>
+        <div class="story-copy"><p class="kicker">NUESTRA HISTORIA</p><h2>Conoce la historia <em>de Monchos</em></h2><p class="story-tag">Contenido que conecta, entretiene y vende.</p><p>La montaña también tiene sentido del humor. Una marca con personalidad, un personaje memorable y muchas historias para contar alrededor del café.</p><button id="storyPlay" class="btn btn-primary">▶ &nbsp; Ver video completo</button></div>
+      </div>
+    </section>
+    <section class="section content-section container" id="contenido">
+      <div class="heading-center"><p class="kicker">MÁS QUE CAFÉ</p><h2>Historias que <em>inspiran</em></h2><p>Momentos de la montaña que podemos transformar en videos, conversaciones y experiencias para recordar.</p></div>
+      <div class="stories-grid">
+        <article class="story-card"><img src="assets/stories/story-1.webp" alt="Moncho y el caballo" loading="lazy"/><h3>La vida en la montaña</h3><p>El personaje detrás del café.</p></article>
+        <article class="story-card"><img src="assets/stories/story-2.webp" alt="Recolección de café" loading="lazy"/><h3>Del campo a tu taza</h3><p>Así comienza nuestra historia.</p></article>
+        <article class="story-card"><img src="assets/stories/story-3.webp" alt="Granos de café tostándose" loading="lazy"/><h3>Proceso artesanal</h3><p>Tradición en cada detalle.</p></article>
+        <article class="story-card"><img src="assets/stories/story-4.webp" alt="Café preparado" loading="lazy"/><h3>Momentos que unen</h3><p>El café sabe mejor en compañía.</p></article>
+        <article class="story-card"><img src="assets/stories/story-5.webp" alt="Paisaje cafetero" loading="lazy"/><h3>Nuestra tierra</h3><p>Un origen que nos inspira.</p></article>
+        <article class="story-card"><img src="assets/stories/story-6.webp" alt="Montañero disfrutando un café" loading="lazy"/><h3>El alma de Monchos</h3><p>Bien montañero, bien auténtico.</p></article>
+      </div>
+    </section>
+    <section class="testimonial-section"><div class="container testimonial-layout"><div><p class="kicker">NUESTRA COMUNIDAD</p><h2>Historias reales,<br><em>como nuestro café</em></h2></div><div class="testimonial-card"><div class="star-line">✦ ✦ ✦ ✦ ✦</div><p>Pronto compartiremos aquí opiniones y experiencias auténticas de nuestros clientes.</p><small>ESPACIO RESERVADO PARA TESTIMONIOS VERIFICADOS</small></div></div></section>
+    <section class="contact-section" id="contacto"><div class="container contact-grid"><div><p class="kicker">EL BUEN CAFÉ SE COMPARTE</p><h2>Llévate el auténtico <em>sabor montañero</em></h2><p>Muy pronto podrás conocer nuestras presentaciones y encargar tu café favorito.</p></div><div class="contact-icons"><span>♧ Tradición</span><span>◇ Atención cercana</span></div><button id="whatsappBtn" class="btn btn-whatsapp">Pedir por WhatsApp <span>→</span></button></div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-grid"><div><img src="assets/logo.webp" alt="Moncho's Coffie, bien montañero" width="170"/><p>Más que café, es nuestra tierra.</p></div><div><b>Explora</b><a href="#cafes">Nuestros cafés</a><a href="#historia">Nuestra historia</a><a href="#contenido">Contenido</a></div><div><b>Contáctanos</b><span>WhatsApp por configurar</span><span>Redes sociales por configurar</span></div></div><div class="container footer-note">© <span id="year"></span> Moncho's Coffie · Prototipo comercial · No recibe pagos ni pedidos.</div></footer>
+  <div id="scrim" class="scrim" hidden></div><aside id="cartDrawer" class="cart-drawer" aria-label="Carrito de demostración" aria-hidden="true"><div class="drawer-header"><h3>Tu carrito <span id="drawerCount">(0)</span></h3><button id="closeCart" aria-label="Cerrar carrito">✕</button></div><div id="cartItems" class="cart-items"></div><div class="drawer-footer"><div class="subtotal"><span>Subtotal de muestra</span><strong id="cartTotal">$0</strong></div><p>Este es un prototipo: no se procesan pagos, pedidos ni datos personales.</p><button id="checkoutBtn" class="btn btn-primary full">Finalizar compra (demo)</button></div></aside>
+  <dialog id="productDialog" aria-label="Detalles del café"><button id="closeProduct" class="close-product" aria-label="Cerrar">✕</button><div id="dialogBody"></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
