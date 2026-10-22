@@ -9,16 +9,42 @@ const products=[
 ];
 const $=s=>document.querySelector(s);const priceLabel='Precio por confirmar';
 let cart=[],filter='todos',timer;
+const whatsappNumber = '573245638605';
+const contactMessage = "Hola, Moncho’s Coffie. Quisiera información sobre sus cafés, precios y disponibilidad.";
+function whatsappUrl(message) {
+  return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+}
+function cartWhatsAppMessage() {
+  const items = cart.map((item, index) =>
+    `${index + 1}. ${item.name}\nCantidad: ${item.qty} · Presentación: ${item.grams} g · Molienda: ${item.grind}\n${priceLabel}.`
+  );
+  return [
+    'Hola, Moncho’s Coffie. Quisiera consultar este pedido:',
+    ...items,
+    '¿Me confirman los precios, la disponibilidad y el total antes de confirmar el pedido?'
+  ].join('\n\n');
+}
+function checkoutWhatsApp() {
+  if (!cart.length) {
+    toast('Agrega al menos un producto al carrito para consultar tu pedido.');
+    return;
+  }
+  window.open(whatsappUrl(cartWhatsAppMessage()), '_blank', 'noopener,noreferrer');
+}
+document.querySelectorAll('[data-whatsapp]').forEach(link => {
+  link.href = whatsappUrl(contactMessage);
+});
+
 function toast(s){const t=$('#toast');t.textContent=s;t.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>t.classList.remove('show'),3500)}
 function render(){const items=filter==='todos'?products:products.filter(p=>p.kind===filter);$('#productGrid').innerHTML=items.map(p=>`<article class="product"><button class="product-image" data-detail="${p.id}" aria-label="Ver ${p.name}"><img loading="lazy" src="assets/products/${p.img}" alt="Empaque ilustrativo para ${p.name}"/>${p.badge?`<span class="product-badge">${p.badge}</span>`:''}</button><div class="product-info"><h3>${p.name}</h3><p>${p.desc}</p><div class="price-row"><strong>${priceLabel}</strong><button data-add="${p.id}" aria-label="Agregar ${p.name} al carrito">🛒</button></div></div></article>`).join('')}
 function chooseFilter(next){filter=next;document.querySelectorAll('[data-filter]').forEach(b=>b.classList.toggle('selected',b.dataset.filter===filter));render()}
-function add(p,grams=340,grind='En grano'){const key=[p.id,grams,grind].join('-');let found=cart.find(x=>x.key===key);if(found)found.qty+=1;else cart.push({key,id:p.id,name:p.name,grams,grind,qty:1});renderCart();toast('Agregado al carrito de demostración')}
+function add(p,grams=340,grind='En grano'){const key=[p.id,grams,grind].join('-');let found=cart.find(x=>x.key===key);if(found)found.qty+=1;else cart.push({key,id:p.id,name:p.name,grams,grind,qty:1});renderCart();toast('Agregado al carrito')}
 function renderCart(){const count=cart.reduce((a,x)=>a+x.qty,0);$('#cartCount').textContent=count;$('#drawerCount').textContent=`(${count})`;$('#cartTotal').textContent=priceLabel;$('#cartItems').innerHTML=cart.length?cart.map(x=>`<div class="cart-item"><strong>${x.name}</strong><small>${x.grams} g · ${x.grind} · Cantidad ${x.qty}</small><b>${priceLabel}</b><button data-remove="${x.key}">Quitar</button></div>`).join(''):'<p class="empty-cart">Tu carrito está vacío. ¡Descubre tu próximo café favorito!</p>'}
 function openCart(){document.body.classList.add('drawer-open');$('#scrim').hidden=false;$('#cartDrawer').classList.add('open');$('#cartDrawer').setAttribute('aria-hidden','false')}
 function closeCart(){document.body.classList.remove('drawer-open');$('#scrim').hidden=true;$('#cartDrawer').classList.remove('open');$('#cartDrawer').setAttribute('aria-hidden','true')}
 function detail(id){const p=products.find(x=>x.id===id);if(!p)return;$('#dialogBody').innerHTML=`<img class="dialog-img" src="assets/products/${p.img}" alt="Empaque ilustrativo ${p.name}"/><div class="dialog-copy"><span class="kicker">MONCHO'S COFFIE</span><h2>${p.name}</h2><p>${p.desc}</p><label for="weight">Presentación</label><select id="weight"><option value="340">340 gramos</option><option value="500">500 gramos</option><option value="1000">1000 gramos</option></select><label for="grind">Tipo de molienda</label><select id="grind"><option>En grano</option><option>Fina</option><option>Media</option><option>Gruesa</option></select><strong id="modalPrice">${priceLabel}</strong><button id="modalAdd" class="btn btn-primary full">Agregar al carrito</button></div>`;$('#productDialog').showModal();$('#modalAdd').addEventListener('click',()=>{add(p,Number($('#weight').value),$('#grind').value);$('#productDialog').close();openCart()})}
 document.addEventListener('click',e=>{const a=e.target.closest('[data-add]');if(a){const p=products.find(x=>x.id===a.dataset.add);if(p)add(p);return}const d=e.target.closest('[data-detail]');if(d){detail(d.dataset.detail);return}const f=e.target.closest('[data-filter]');if(f){chooseFilter(f.dataset.filter);return}const r=e.target.closest('[data-remove]');if(r){cart=cart.filter(x=>x.key!==r.dataset.remove);renderCart()}});
-$('#cartBtn').addEventListener('click',openCart);$('#closeCart').addEventListener('click',closeCart);$('#scrim').addEventListener('click',closeCart);$('#closeProduct').addEventListener('click',()=>$('#productDialog').close());$('#checkoutBtn').addEventListener('click',()=>toast('Demostración: compras y pagos aún no habilitados.'));$('#whatsappBtn').addEventListener('click',()=>toast('El WhatsApp oficial se configurará cuando el cliente lo autorice.'));
+$('#cartBtn').addEventListener('click',openCart);$('#closeCart').addEventListener('click',closeCart);$('#scrim').addEventListener('click',closeCart);$('#closeProduct').addEventListener('click',()=>$('#productDialog').close());$('#checkoutBtn').addEventListener('click',checkoutWhatsApp);
 function playBrandVideo(){document.getElementById('historia').scrollIntoView({behavior:'smooth'});const v=$('#brandVideo');v.play().catch(()=>toast('Usa el control ▶ del video para reproducirlo.'))}
 $('#heroPlay').addEventListener('click',playBrandVideo);$('#storyPlay').addEventListener('click',playBrandVideo);$('#searchBtn').addEventListener('click',()=>document.getElementById('cafes').scrollIntoView({behavior:'smooth'}));$('#menuBtn').addEventListener('click',()=>{const o=$('#mainNav').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',String(o))});document.querySelectorAll('.navigation a').forEach(a=>a.addEventListener('click',()=>{setActiveSection(a.hash);$('#mainNav').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false')}));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCart()});$('#year').textContent=new Date().getFullYear();render();renderCart();
 
