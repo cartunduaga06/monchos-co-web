@@ -20,4 +20,50 @@ function detail(id){const p=products.find(x=>x.id===id);if(!p)return;$('#dialogB
 document.addEventListener('click',e=>{const a=e.target.closest('[data-add]');if(a){const p=products.find(x=>x.id===a.dataset.add);if(p)add(p);return}const d=e.target.closest('[data-detail]');if(d){detail(d.dataset.detail);return}const f=e.target.closest('[data-filter]');if(f){chooseFilter(f.dataset.filter);return}const r=e.target.closest('[data-remove]');if(r){cart=cart.filter(x=>x.key!==r.dataset.remove);renderCart()}});
 $('#cartBtn').addEventListener('click',openCart);$('#closeCart').addEventListener('click',closeCart);$('#scrim').addEventListener('click',closeCart);$('#closeProduct').addEventListener('click',()=>$('#productDialog').close());$('#checkoutBtn').addEventListener('click',()=>toast('Demostración: compras y pagos aún no habilitados.'));$('#whatsappBtn').addEventListener('click',()=>toast('El WhatsApp oficial se configurará cuando el cliente lo autorice.'));
 function playBrandVideo(){document.getElementById('historia').scrollIntoView({behavior:'smooth'});const v=$('#brandVideo');v.play().catch(()=>toast('Usa el control ▶ del video para reproducirlo.'))}
-$('#heroPlay').addEventListener('click',playBrandVideo);$('#storyPlay').addEventListener('click',playBrandVideo);$('#searchBtn').addEventListener('click',()=>document.getElementById('cafes').scrollIntoView({behavior:'smooth'}));$('#menuBtn').addEventListener('click',()=>{const o=$('#mainNav').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',String(o))});document.querySelectorAll('.navigation a').forEach(a=>a.addEventListener('click',()=>{$('#mainNav').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false')}));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCart()});$('#year').textContent=new Date().getFullYear();render();renderCart();
+$('#heroPlay').addEventListener('click',playBrandVideo);$('#storyPlay').addEventListener('click',playBrandVideo);$('#searchBtn').addEventListener('click',()=>document.getElementById('cafes').scrollIntoView({behavior:'smooth'}));$('#menuBtn').addEventListener('click',()=>{const o=$('#mainNav').classList.toggle('open');$('#menuBtn').setAttribute('aria-expanded',String(o))});document.querySelectorAll('.navigation a').forEach(a=>a.addEventListener('click',()=>{setActiveSection(a.hash);$('#mainNav').classList.remove('open');$('#menuBtn').setAttribute('aria-expanded','false')}));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCart()});$('#year').textContent=new Date().getFullYear();render();renderCart();
+
+
+// Keep the menu indicator aligned with the section being viewed.
+const navigationLinks = [...document.querySelectorAll('.navigation a')];
+const navigationSections = navigationLinks.map(link => ({
+  hash: link.hash,
+  element: document.getElementById(link.hash.slice(1))
+})).filter(section => section.element);
+
+function setActiveSection(hash) {
+  navigationLinks.forEach(link => {
+    const active = link.hash === hash;
+    link.classList.toggle('active', active);
+    if (active) link.setAttribute('aria-current', 'location');
+    else link.removeAttribute('aria-current');
+  });
+}
+
+function updateActiveSection() {
+  const headerHeight = document.querySelector('.site-header').getBoundingClientRect().height;
+  const anchorOffset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+  const threshold = Math.max(headerHeight, anchorOffset) + 24;
+  let current = navigationSections[0];
+  for (const section of navigationSections) {
+    if (section.element.getBoundingClientRect().top <= threshold) current = section;
+  }
+  if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) {
+    current = navigationSections[navigationSections.length - 1];
+  }
+  if (current) setActiveSection(current.hash);
+}
+
+let navigationUpdatePending = false;
+function scheduleNavigationUpdate() {
+  if (navigationUpdatePending) return;
+  navigationUpdatePending = true;
+  requestAnimationFrame(() => {
+    navigationUpdatePending = false;
+    updateActiveSection();
+  });
+}
+window.addEventListener('scroll', scheduleNavigationUpdate, {passive: true});
+window.addEventListener('resize', scheduleNavigationUpdate);
+window.addEventListener('hashchange', scheduleNavigationUpdate);
+window.addEventListener('load', scheduleNavigationUpdate);
+updateActiveSection();
