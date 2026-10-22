@@ -17,7 +17,7 @@ class DevelopmentToolsTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         for name, text in {"index.html": '<main id="home"><a href="#home">Home</a><img src="assets/a.webp"></main>',
-                           "styles.css": "body {}", "app.js": "", ".nojekyll": "",
+                           "styles.css": "body {}", "app.js": "", ".nojekyll": "", "CNAME": "monchos.co\n",
                            "README.md": "private operations", ".env": "private fixture"}.items():
             (self.root / name).write_text(text)
         (self.root / "assets").mkdir()
@@ -28,7 +28,7 @@ class DevelopmentToolsTests(unittest.TestCase):
 
     def test_only_site_files_are_publishable(self):
         self.assertEqual({p.relative_to(self.root).as_posix() for p in site_tools.check()},
-                         {"index.html", "styles.css", "app.js", ".nojekyll", "assets/a.webp"})
+                         {"index.html", "styles.css", "app.js", ".nojekyll", "CNAME", "assets/a.webp"})
 
     def test_broken_asset_stops_publication(self):
         (self.root / "assets/a.webp").unlink()

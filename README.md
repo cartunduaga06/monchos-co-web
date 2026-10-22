@@ -54,12 +54,12 @@ También se pueden usar ramas `feature/...` y pull requests hacia `main`.
 
 GitHub Actions valida cada push y pull request hacia main; publica únicamente
 los pushes a main que pasan la validación. El artefacto contiene solo
-`index.html`, `styles.css`, `app.js`, `.nojekyll` y los medios admitidos de
+`index.html`, `styles.css`, `app.js`, `.nojekyll`, `CNAME` y los medios admitidos de
 `assets/`; no incluye scripts, documentación ni metadatos del repositorio.
 El repositorio es público: no guardar secretos en ningún archivo versionado.
 
-Sitio público: https://cartunduaga06.github.io/cafe-los-monchos-demo/
-Despliegues: https://github.com/cartunduaga06/cafe-los-monchos-demo/actions/workflows/pages.yml
+Sitio público: https://monchos.co/
+Despliegues: https://github.com/cartunduaga06/monchos-co-web/actions/workflows/pages.yml
 
 ## Comandos y servicio
 
@@ -85,3 +85,12 @@ fuera del repositorio, en `~/.local/state/monchos-development/`.
 GitHub Pages se configura con `build_type: workflow` para que la validación
 controle la publicación. Referencia:
 https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages
+
+## Repositorio y dominio canónicos
+
+El repositorio de publicación es `cartunduaga06/monchos-co-web` (`origin`).
+`main` publica https://monchos.co/; `develop` es la rama de trabajo.
+La configuración conserva el dominio personalizado y su historial anterior.
+El remoto `demo` conserva el repositorio de la demo como referencia histórica;
+`make publish` trabaja exclusivamente con `origin`.
+La carpeta del servidor y la vista previa LAN permanecen en las ubicaciones anteriores.

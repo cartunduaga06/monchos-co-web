@@ -7,7 +7,7 @@ import shutil
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-FILES = ("index.html", "styles.css", "app.js", ".nojekyll")
+FILES = ("index.html", "styles.css", "app.js", ".nojekyll", "CNAME")
 EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".svg", ".gif", ".ico", ".mp4", ".webm", ".woff", ".woff2"}
 
 
